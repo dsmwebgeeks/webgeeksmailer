@@ -21,7 +21,16 @@ class EventbriteEvents
             });
     }
 
-    public function request($endpoint, $args)
+    public static function get($id)
+    {
+        $response = (new static)->request('events/' . $id, [
+            'expand' => 'venue'
+        ]);
+
+        return (new static)->formatEvent($response);
+    }
+
+    public function request($endpoint, $args = [])
     {
         $response = Zttp::get(
             static::API_BASE . $endpoint . '/',
@@ -34,9 +43,15 @@ class EventbriteEvents
     public function formatEvent($data)
     {
         return (object) [
+            'id' => $data['id'],
             'name' => $data['name']['text'],
             'image' => $data['logo']['url'],
-            'date' => Carbon::parse($data['start']['local'])->format("Y-m-d g:i a"),
+            'description' => $data['description']['html'],
+            'date' => Carbon::parse($data['start']['local'])->format("F j, Y"),
+            'start' => Carbon::parse($data['start']['local'])->format("g:i a"),
+            'end' => Carbon::parse($data['end']['local'])->format("g:i a"),
+            'venue' => empty($data['venue']) ? '' :
+                $data['venue']['name'] . "\r\n" . implode("\r\n", $data['venue']['address']['localized_multi_line_address_display'])
         ];
     }
 }

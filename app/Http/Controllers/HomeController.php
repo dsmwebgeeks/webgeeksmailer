@@ -25,8 +25,14 @@ class HomeController extends Controller
     public function index()
     {
         $events = EventbriteEvents::recent();
-        // dd($events);
 
         return view('home', compact('events'));
+    }
+
+    public function generate($id)
+    {
+        $event = EventbriteEvents::get($id);
+
+        dd($event);
     }
 }

@@ -25,7 +25,11 @@
                 <img src="{{ $event->image }}" alt="" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">{{ $event->name }}</h5>
-                    <p class="card-text">{{ $event->date }}</p>
+                    <p class="card-text">{{ $event->date }} at {{ $event->start }}</p>
+                    <form action="/emails/generate/{{ $event->id }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-light btn-sm">Draft Email</button>
+                    </form>
                 </div>
             </div>
             @endforeach
