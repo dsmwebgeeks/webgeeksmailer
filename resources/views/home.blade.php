@@ -22,10 +22,10 @@
 
             @foreach ($events as $event)
             <div class="card" style="margin-bottom: 1rem;">
-                <img src="{{ $event['logo']['url'] }}" alt="" class="card-img-top">
+                <img src="{{ $event->image }}" alt="" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $event['name']['text'] }}</h5>
-                    <p class="card-text">{{ $event['date'] }}</p>
+                    <h5 class="card-title">{{ $event->name }}</h5>
+                    <p class="card-text">{{ $event->date }}</p>
                 </div>
             </div>
             @endforeach
