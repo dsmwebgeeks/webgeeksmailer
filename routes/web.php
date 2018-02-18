@@ -2,6 +2,7 @@
 
 use App\Jobs\GenerateMailChimpCampaign;
 use App\EventbriteEvents;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +28,14 @@ Route::post('/webhooks/eventbrite', function() {
     $url = request()->input('api_url');
     $pieces = array_filter(explode('/', $url));
     $id = array_pop($pieces);
-    $event = EventbriteEvents::get($id);
 
-    GenerateMailChimpCampaign::dispatch($event);
+    try {
+        $event = EventbriteEvents::get($id);
+
+        GenerateMailChimpCampaign::dispatch($event);
+    } catch (\Exception $e) {
+        Log::warning("Eventbrite webhook failed: {$e->getMessage()}");
+    }
 
     return response()->json(['status' => 'ok']);
 });
