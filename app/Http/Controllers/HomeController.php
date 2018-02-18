@@ -35,5 +35,7 @@ class HomeController extends Controller
         $event = EventbriteEvents::get($id);
 
         GenerateMailChimpCampaign::dispatch($event);
+
+        return redirect('/home')->with('status', 'MailChimp campaign generated. Check your email for a link.');
     }
 }

@@ -5,18 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-12" style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-gap: 1rem;">
             @if (session('status'))
-            <div class="card card-default">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-
-                        You are logged in!
-                    </div>
-                </div>
+            <div class="alert alert-primary" role="alert">
+                {{ session('status') }}
             </div>
             @endif
 
