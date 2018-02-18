@@ -75,7 +75,7 @@ class GenerateMailChimpCampaign implements ShouldQueue
             'url' => $campaignUrl,
         ];
 
-        Notification::route('mail', 'jplhomer@gmail.com')
+        Notification::route('mail', 'team@dsmwebgeeks.com')
             ->notify(new CampaignReadyForReview($this->event, $campaign));
     }
 }
