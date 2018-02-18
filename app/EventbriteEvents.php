@@ -45,13 +45,14 @@ class EventbriteEvents
         return (object) [
             'id' => $data['id'],
             'name' => $data['name']['text'],
+            'url' => $data['url'],
             'image' => $data['logo']['url'],
             'description' => $data['description']['html'],
             'date' => Carbon::parse($data['start']['local'])->format("F j, Y"),
-            'start' => Carbon::parse($data['start']['local'])->format("g:i a"),
-            'end' => Carbon::parse($data['end']['local'])->format("g:i a"),
+            'start' => Carbon::parse($data['start']['local'])->format("g:ia"),
+            'end' => Carbon::parse($data['end']['local'])->format("g:ia"),
             'venue' => empty($data['venue']) ? '' :
-                $data['venue']['name'] . "\r\n" . implode("\r\n", $data['venue']['address']['localized_multi_line_address_display'])
+                '<b>' . $data['venue']['name'] . "</b><br>" . implode("<br>", $data['venue']['address']['localized_multi_line_address_display'])
         ];
     }
 }

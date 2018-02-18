@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\EventbriteEvents;
+use App\Jobs\GenerateMailChimpCampaign;
 
 class HomeController extends Controller
 {
@@ -33,6 +34,6 @@ class HomeController extends Controller
     {
         $event = EventbriteEvents::get($id);
 
-        dd($event);
+        GenerateMailChimpCampaign::dispatch($event);
     }
 }
