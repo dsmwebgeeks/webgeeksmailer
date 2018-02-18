@@ -8,6 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use DrewM\MailChimp\MailChimp;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\CampaignReadyForReview;
 
 class GenerateMailChimpCampaign implements ShouldQueue
 {
@@ -50,6 +52,7 @@ class GenerateMailChimpCampaign implements ShouldQueue
         ]);
 
         $campaignId = $response['id'];
+        $campaignWebId = $response['web_id'];
         $campaignUrl = $response['archive_url'];
 
         $response = $mailchimp->put("/campaigns/{$campaignId}/content", [
@@ -66,6 +69,13 @@ class GenerateMailChimpCampaign implements ShouldQueue
             ],
         ]);
 
-        dd($response);
+        $campaign = [
+            'id' => $campaignId,
+            'web_id' => $campaignWebId,
+            'url' => $campaignUrl,
+        ];
+
+        Notification::route('mail', 'jplhomer@gmail.com')
+            ->notify(new CampaignReadyForReview($this->event, $campaign));
     }
 }
