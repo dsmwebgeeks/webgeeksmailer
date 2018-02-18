@@ -25,7 +25,7 @@ Route::post('/emails/generate/{id}', 'HomeController@generate')->name('generate'
 
 Route::post('/webhooks/eventbrite', function() {
     $url = request()->input('api_url');
-    $pieces = explode('/', $url);
+    $pieces = array_filter(explode('/', $url));
     $id = array_pop($pieces);
     $event = EventbriteEvents::get($id);
 
