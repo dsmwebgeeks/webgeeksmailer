@@ -15,7 +15,7 @@ class EventbriteEvents
             'order_by' => 'start_desc',
         ]);
 
-        return collect($response['events'])->take(5)
+        return collect($response['events'])->take(15)
             ->map(function($event) {
                 return (new static)->formatEvent($event);
             });
