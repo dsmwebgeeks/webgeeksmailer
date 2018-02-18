@@ -18,4 +18,6 @@ It sends an email to Web Geeks organizers when the campaign is ready to be viewe
 1. `composer install`
 1. Set the proper keys in `.env`, especially for Eventbrite and MailChimp integrations. Don't forget to create and set the values for your MySQL and Redis databases.
 1. Run `php artisan migrate`
+1. Run `yarn`
+1. Run `yarn dev` to compile assets
 1. Visit the site using a web server or `php artisan serve`
