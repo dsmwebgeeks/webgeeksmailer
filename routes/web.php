@@ -1,5 +1,8 @@
 <?php
 
+use App\Jobs\GenerateMailChimpCampaign;
+use App\EventbriteEvents;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,3 +22,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/emails/generate/{id}', 'HomeController@generate')->name('generate');
+
+Route::post('/webhooks/eventbrite', function() {
+    $url = request()->input('api_url');
+    $pieces = explode('/', $url);
+    $id = array_pop($pieces);
+    $event = EventbriteEvents::get($id);
+
+    GenerateMailChimpCampaign::dispatch($event);
+
+    return response()->json(['status' => 'ok']);
+});
