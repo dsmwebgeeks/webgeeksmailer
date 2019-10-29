@@ -27,7 +27,14 @@ class EventbriteEvents
             'expand' => 'venue'
         ]);
 
-        return (new static)->formatEvent($response);
+        return (new static)->formatEvent($response, true);
+    }
+
+    public static function getFullDescription($id)
+    {
+        $response = (new static)->request('events/' . $id . '/description');
+
+        return $response['description'];
     }
 
     public function request($endpoint, $args = [])
@@ -40,14 +47,14 @@ class EventbriteEvents
         return $response->json();
     }
 
-    public function formatEvent($data)
+    public function formatEvent($data, $showFullDescription = false)
     {
         return (object) [
             'id' => $data['id'],
             'name' => $data['name']['text'],
             'url' => $data['url'],
             'image' => $data['logo']['url'],
-            'description' => $data['description']['html'],
+            'description' => $showFullDescription ? static::getFullDescription($data['id']) : $data['description']['html'],
             'date' => Carbon::parse($data['start']['local'])->format("F j, Y"),
             'start' => Carbon::parse($data['start']['local'])->format("g:ia"),
             'end' => Carbon::parse($data['end']['local'])->format("g:ia"),

@@ -22,6 +22,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/events/{id}', 'HomeController@show');
 Route::post('/emails/generate/{id}', 'HomeController@generate')->name('generate');
 
 Route::post('/webhooks/eventbrite', function() {

@@ -30,6 +30,16 @@ class HomeController extends Controller
         return view('home', compact('events'));
     }
 
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return response()->json(EventbriteEvents::get($id));
+    }
+
     public function generate($id)
     {
         $event = EventbriteEvents::get($id);
